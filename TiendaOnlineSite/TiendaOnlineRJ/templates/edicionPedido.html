@@ -1,0 +1,56 @@
+{% extends "./base.html" %}
+
+{% block title %} Pedidos {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-me-4">
+        <h2>Editar Pedidos</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="edicionPedido/" method="POST"> {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtId" name="txtId" value="{{pedido.id}}" class="form-control"
+                               placeholder="Id" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtFecha" name="txtFecha" value="{{pedido.fecha}}" class="form-control"
+                               placeholder="Fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtCantidad" name="txtCantidad" value="{{pedido.cantidad}}"
+                               class="form-control" placeholder="Cantidad" required>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" aria-label="Seleccione un Producto" id="selectProductoId" name="selectProductoId" >
+                            <option selected>Seleccione un Producto</option>
+                            {% for producto in productos %}
+                            {% if producto.id == pedido.producto_id %}
+                            <option selected value="{{ producto.id }}">{{ producto.nombre }}</option>
+                            {% else %}
+                            <option value="{{ producto.id }}">{{ producto.nombre }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" aria-label="Seleccione un Usuario" id="selectUsuarioId" name="selectUsuarioId">
+                            <option selected>Seleccione un Usuario</option>
+                            {% for usuario in usuarios %}
+                            {% if usuario.id == pedido.usuario_id %}
+                            <option selected value="{{ usuario.id }}">{{ usuario.nombre }}</option>
+                            {% else %}
+                            <option value="{{ usuario.id }}">{{ usuario.nombre }}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% extends "./base.html" %}
+
+{% block title %} Usuarios {% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-me-4">
+        <h2>Editar Usuario</h2>
+        <div class="card">
+            <div class="card-body">
+                <form action="edicionUsuario/" method="POST"> {% csrf_token %}
+                    <div class="form-group">
+                        <input type="text" id="txtId" name="txtId" value="{{usuario.id}}" class="form-control" placeholder="Id" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtNombre" name="txtNombre" value="{{usuario.nombre}}" class="form-control" placeholder="Nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtCorreo" name="txtCorreo" value="{{usuario.correo_electronico}}" class="form-control" placeholder="Correo" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="txtContraseña" name="txtContraseña" value="{{usuario.contrasena}}" class="form-control" placeholder="Contraseña" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
