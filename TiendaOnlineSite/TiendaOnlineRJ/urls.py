@@ -3,12 +3,16 @@ from . import views
 
 urlpatterns = [
 
+    # Login
+    path('', views.indexLogin),
+    path('ingresar/', views.ingresar),
+
     # Usuarios
-    path('', views.index),
-    path('registrarUsuario/', views.registrarUsuario),
-    path('editarUsuario/<id>', views.editarUsuario),
-    path('editarUsuario/edicionUsuario/', views.edicionUsuario),
-    path('eliminarUsuario/<id>', views.eliminarUsuario),
+    path('usuarios/', views.index),
+    path('usuarios/registrarUsuario/', views.registrarUsuario),
+    path('usuarios/editarUsuario/<id>', views.editarUsuario),
+    path('usuarios/editarUsuario/edicionUsuario/', views.edicionUsuario),
+    path('usuarios/eliminarUsuario/<id>', views.eliminarUsuario),
 
     # Productos
     path('productos/', views.indexProductos),
@@ -20,9 +24,9 @@ urlpatterns = [
     # Pedidos
     path('pedidos/', views.indexPedidos),
     path('pedidos/registrarPedido/', views.registrarPedido),
+    path('pedidos/buscarPedido/', views.buscarPedido),
     path('pedidos/editarPedido/<id>', views.editarPedido),
     path('pedidos/editarPedido/edicionPedido/', views.edicionPedido),
     path('pedidos/eliminarPedido/<id>', views.eliminarPedido),
 
 ]
-

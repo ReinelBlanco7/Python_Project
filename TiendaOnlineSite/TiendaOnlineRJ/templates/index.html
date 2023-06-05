@@ -1,60 +1,66 @@
-{% extends "./base.html" %}
-
-{% block title %} Usuarios {% endblock %}
-
-{% block body %}
-<div class="row">
-    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
-        <h2>Usuarios</h2>
-        <div class="card">
-            <div class="card-body">
-                <form action="registrarUsuario/" method="POST"> {% csrf_token %}
-                    <div class="form-group">
-                        <input type="text" id="txtNombre" name="txtNombre" minlength="3" class="form-control" placeholder="Nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" id="txtCorreo" name="txtCorreo" class="form-control" placeholder="Correo" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" id="txtContraseña" name="txtContraseña" minlength="8" class="form-control" placeholder="Contraseña" required>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-success btn-block text-white">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> {% block title %} {% endblock %}</title>
+    <!-- Bootstrap-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <!-- DataTable.js-->
+    <link rel="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css"/>
+    <!-- Font Awesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <!-- My css-->
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Tienda Online</a>
     </div>
-    <div class="col-sm-12 col-md-6 col-lg-8 col-xl-8">
-        <div class="table-responsive">
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th class="centered">Id</th>
-                        <th class="centered">Nombre</th>
-                        <th class="centered">Correo Electronico</th>
-                        <th class="centered">Contraseña</th>
-                        <th colspan="2" class="centered">Opciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for u in usuarios %}
-
-                    <tr>
-                        <td>{{u.id}}</td>
-                        <td>{{u.nombre}}</td>
-                        <td>{{u.correo_electronico}}</td>
-                        <td>{{u.contrasena}}</td>
-                        <td><a href="editarUsuario/{{u.id}}" class="btn btn-info">Editar</a></td>
-                        <td><a href="eliminarUsuario/{{u.id}}" class="btn btn-danger">Eliminar</a></td>
-                    </tr>
-
-                    {% endfor %}
-
-                </tbody>
-            </table>
+</nav>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <h2>Login</h2>
+            <div class="card">
+                <div class="card-body">
+                    <form action="/ingresar/" method="GET"> {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" id="txtNombre" name="txtNombre" minlength="3" class="form-control"
+                                   placeholder="Nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="txtContraseña" name="txtContraseña" minlength="8"
+                                   class="form-control" placeholder="Contraseña" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block text-white">Ingresar</button>
+                        </div>
+                        <div>
+                            <input value="{{error}}"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-{% endblock %}
+<!-- Bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous"></script>
+<!-- jQuery-->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<!-- DataTable.js-->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<!-- My JS-->
+<script src="{% static 'js/index.js' %}"></script>
+
+</body>
+</html>

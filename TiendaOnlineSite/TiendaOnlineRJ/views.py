@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.exceptions import ObjectDoesNotExist
 from .models import Usuario
 from .models import Producto
 from .models import Pedido
@@ -8,9 +9,30 @@ from django.urls import reverse
 from django.http import HttpResponse
 
 
+def indexLogin(request):
+    return render(request, 'index.html')
+
+
+def ingresar(request):
+    nombre = request.GET.get('txtNombre')
+    contrasena = request.GET.get('txtContraseña')
+
+    print(nombre)
+    print(contrasena)
+
+    cantidadUsuarios = Usuario.objects.filter(nombre=nombre, contrasena=contrasena).count()
+
+    if cantidadUsuarios > 0:
+        # El usuario existe, realizar las acciones necesarias
+        return redirect('/productos')
+    else:
+        mensaje_error = "El usuario o contraseña son incorrectos"
+        return render(request, 'index.html', {'error': mensaje_error})
+
+
 def index(request):
     listaUsuarios = list(Usuario.objects.values())
-    return render(request, 'index.html', {"usuarios": listaUsuarios})
+    return render(request, 'usuarios.html', {"usuarios": listaUsuarios})
 
 
 def registrarUsuario(request):
@@ -19,7 +41,7 @@ def registrarUsuario(request):
     contrasena = request.POST['txtContraseña']
 
     usuario = Usuario.objects.create(nombre=nombre, correo_electronico=correo, contrasena=contrasena)
-    return redirect('/')
+    return redirect("/usuarios")
 
 
 def editarUsuario(request, id):
@@ -39,14 +61,14 @@ def edicionUsuario(request):
     usuario.contrasena = contrasena
     usuario.save()
 
-    return redirect('/')
+    return redirect("/usuarios")
 
 
 def eliminarUsuario(request, id):
     usuario = Usuario.objects.get(id=id)
     usuario.delete()
 
-    return redirect('/')
+    return redirect("/usuarios")
 
 
 # Productos
@@ -98,7 +120,8 @@ def indexPedidos(request):
     listaPedidos = list(Pedido.objects.values())
     listaProductos = list(Producto.objects.values())
     listaUsuarios = list(Usuario.objects.values())
-    return render(request, 'pedidos.html', {"pedidos": listaPedidos, "productos": listaProductos, "usuarios": listaUsuarios})
+    return render(request, 'pedidos.html',
+                  {"pedidos": listaPedidos, "productos": listaProductos, "usuarios": listaUsuarios})
 
 
 def registrarPedido(request):
@@ -115,7 +138,8 @@ def editarPedido(request, id):
     pedido = Pedido.objects.get(id=id)
     listaProductos = list(Producto.objects.values())
     listaUsuarios = list(Usuario.objects.values())
-    return render(request, "edicionPedido.html", {"pedido": pedido, "productos": listaProductos, "usuarios": listaUsuarios})
+    return render(request, "edicionPedido.html",
+                  {"pedido": pedido, "productos": listaProductos, "usuarios": listaUsuarios})
 
 
 def edicionPedido(request):
@@ -140,3 +164,11 @@ def eliminarPedido(request, id):
     pedido.delete()
 
     return redirect("/pedidos")
+
+
+# Pedidos por usuarios
+
+def buscarPedido(request):
+    idUsuario = request.GET.get('txtBuscarUsuario')
+    listaPedidos = Pedido.objects.filter(usuario_id=idUsuario)
+    return render(request, 'pedidos.html', {"pedidos": listaPedidos})
